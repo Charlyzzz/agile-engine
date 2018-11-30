@@ -1,5 +1,7 @@
 package agileengine
 
+import org.jsoup.nodes.Element
+
 import scala.collection.mutable
 
 package object extensions {
@@ -12,4 +14,16 @@ package object extensions {
       elements.toList
     }
   }
+
+  implicit class ElementExtension(element: Element) {
+
+    def indexBetweenSameTypeSiblings(): Int = {
+      val sameTypeBrothers = element.parent().children().toArray()
+        .toList.asInstanceOf[List[Element]]
+        .filter(element.tagName() == _.tagName())
+
+      sameTypeBrothers.indexOf(element)
+    }
+  }
+
 }

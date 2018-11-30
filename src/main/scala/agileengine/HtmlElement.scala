@@ -12,12 +12,12 @@ case class HtmlElement(element: Element) {
   private def parentsNames = {
     parents.map(parent => {
       val parentName = parent.tagName()
-      val childIndex = parent.siblingIndex() - 1
-      val isOnlyChild = childIndex == 0
+      val index = parent.indexBetweenSameTypeSiblings()
+      val isOnlyChild = index == 0
       if (isOnlyChild) {
         parentName
       } else {
-        s"$parentName[$childIndex]"
+        s"$parentName[$index]"
       }
     })
   }
