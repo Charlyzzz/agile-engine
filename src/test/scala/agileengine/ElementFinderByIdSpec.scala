@@ -22,21 +22,19 @@ class ElementFinderByIdSpec extends FreeSpec with Matchers {
         """.stripMargin
 
       "returns an element if found" in {
-        val elementFinderById = new ElementFinderById
-        val foundElement = elementFinderById("some-id", smallHTML)
+        val foundElement = ElementFinderById("some-id", smallHTML)
         foundElement should not be empty
       }
 
       "returns None if not found" in {
-        val elementFinderById = new ElementFinderById
-        val found = elementFinderById("some-id2", smallHTML)
+        val found = ElementFinderById("some-id2", smallHTML)
         found shouldBe empty
       }
 
       "returned element contains its tag and attributes" in {
-        val elementFinderById = new ElementFinderById
-        val Some(ElementProperties(foundTag, foundClasses, foundProperties, foundHref)) = elementFinderById("some-id", smallHTML)
-        foundProperties should contain("id" -> "some-id")
+        val Some(foundElement) = ElementFinderById("some-id", smallHTML)
+        val ElementProperties(foundTag, foundClasses, foundAttributes, foundHref) = foundElement.properties
+        foundAttributes should contain("id" -> "some-id")
         foundClasses should contain allOf("foo", "bar")
         foundHref shouldBe "baz"
         foundTag shouldBe "div"
